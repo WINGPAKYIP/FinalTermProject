@@ -1,0 +1,14 @@
+C:\Users\galle\source\repos\FinalTermProject\obj\Debug\netcoreapp3.1\FinalTermProject.csproj.AssemblyReference.cache
+C:\Users\galle\source\repos\FinalTermProject\obj\Debug\netcoreapp3.1\FinalTermProject.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\galle\source\repos\FinalTermProject\obj\Debug\netcoreapp3.1\FinalTermProject.AssemblyInfoInputs.cache
+C:\Users\galle\source\repos\FinalTermProject\obj\Debug\netcoreapp3.1\FinalTermProject.AssemblyInfo.cs
+C:\Users\galle\source\repos\FinalTermProject\obj\Debug\netcoreapp3.1\FinalTermProject.csproj.CoreCompileInputs.cache
+C:\Users\galle\source\repos\FinalTermProject\bin\Debug\netcoreapp3.1\FinalTermProject.exe
+C:\Users\galle\source\repos\FinalTermProject\bin\Debug\netcoreapp3.1\FinalTermProject.deps.json
+C:\Users\galle\source\repos\FinalTermProject\bin\Debug\netcoreapp3.1\FinalTermProject.runtimeconfig.json
+C:\Users\galle\source\repos\FinalTermProject\bin\Debug\netcoreapp3.1\FinalTermProject.runtimeconfig.dev.json
+C:\Users\galle\source\repos\FinalTermProject\bin\Debug\netcoreapp3.1\FinalTermProject.dll
+C:\Users\galle\source\repos\FinalTermProject\bin\Debug\netcoreapp3.1\FinalTermProject.pdb
+C:\Users\galle\source\repos\FinalTermProject\obj\Debug\netcoreapp3.1\FinalTermProject.dll
+C:\Users\galle\source\repos\FinalTermProject\obj\Debug\netcoreapp3.1\FinalTermProject.pdb
+C:\Users\galle\source\repos\FinalTermProject\obj\Debug\netcoreapp3.1\FinalTermProject.genruntimeconfig.cache
