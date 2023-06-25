@@ -63,26 +63,43 @@ public class ConnectFourGame
         }
     }
 
-    public bool IsGameOver()
+    public bool IsGameOver(out bool restart)
     {
         if (CheckWinCondition('X'))
         {
-            Console.WriteLine("Player X wins!");
-            isGameOver = true;
+            Console.WriteLine("It is a Connect Four. X wins!");
+            restart = PromptRestart();
+            return true;
         }
         else if (CheckWinCondition('O'))
         {
-            Console.WriteLine("Player O wins!");
-            isGameOver = true;
+            Console.WriteLine("It is a Connect Four. O wins!");
+            restart = PromptRestart();
+            return true;
         }
         else if (IsBoardFull())
         {
             Console.WriteLine("It's a draw!");
-            isGameOver = true;
+            restart = PromptRestart();
+            return true;
         }
 
-        return isGameOver;
+        restart = false;
+        return false;
     }
+
+    private bool PromptRestart()
+    {
+        Console.Write("Restart? Yes (1) No (0): ");
+        int choice;
+        while (!int.TryParse(Console.ReadLine(), out choice) || (choice != 0 && choice != 1))
+        {
+            Console.WriteLine("Invalid input. Please enter 0 or 1.");
+        }
+
+        return choice == 1;
+    }
+
 
     private bool CheckWinCondition(char symbol)
     {
@@ -212,36 +229,39 @@ public class GameController
     public void StartGame()
     {
         bool isPlayer1Turn = true;
+        bool restart = true;
 
-        while (!game.IsGameOver())
+        while (restart)
         {
-            game.PrintBoard();
+            game = new ConnectFourGame();
+            isPlayer1Turn = true;
 
-            Player currentPlayer = isPlayer1Turn ? player1 : player2;
-            int column = currentPlayer.GetNextMove();
+            while (!game.IsGameOver(out restart))
+            {
+                game.PrintBoard();
 
-            if (game.IsMoveValid(column))
-            {
-                game.MakeMove(column, currentPlayer.Symbol);
-                isPlayer1Turn = !isPlayer1Turn;
-            }
-            else
-            {
-                Console.WriteLine("Invalid move. Please select a different column.");
+                Player currentPlayer = isPlayer1Turn ? player1 : player2;
+                int column = currentPlayer.GetNextMove();
+
+                if (game.IsMoveValid(column))
+                {
+                    game.MakeMove(column, currentPlayer.Symbol);
+                    isPlayer1Turn = !isPlayer1Turn;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid move. Please select a different column.");
+                }
             }
         }
-
-        game.PrintBoard();
-        Console.WriteLine("It is a Connect Four.");
-        Console.ReadLine();
     }
-}
 
-class Program
-{
-    static void Main(string[] args)
+    class Program
     {
-        GameController controller = new GameController();
-        controller.StartGame();
+        static void Main(string[] args)
+        {
+            GameController controller = new GameController();
+            controller.StartGame();
+        }
     }
 }
