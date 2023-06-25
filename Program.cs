@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 
 public class ConnectFourGame
 {
@@ -58,35 +59,41 @@ public class ConnectFourGame
             if (board[row, column - 1] == ' ')
             {
                 board[row, column - 1] = symbol;
+                PrintBoard(); // to print the board after each move
                 break;
             }
         }
     }
 
-    public bool IsGameOver(out bool restart)
+    public bool IsGameOver(Player player1, Player player2, out bool restart, out Player winningPlayer)
     {
-        if (CheckWinCondition('X'))
+        if (CheckWinCondition(player1.Symbol))
         {
-            Console.WriteLine("It is a Connect Four. X wins!");
+            Console.WriteLine($"It is a Connect Four. {player1.Name} wins!");
             restart = PromptRestart();
+            winningPlayer = player1;
             return true;
         }
-        else if (CheckWinCondition('O'))
+        else if (CheckWinCondition(player2.Symbol))
         {
-            Console.WriteLine("It is a Connect Four. O wins!");
+            Console.WriteLine($"It is a Connect Four. {player2.Name} wins!");
             restart = PromptRestart();
+            winningPlayer = player2;
             return true;
         }
         else if (IsBoardFull())
         {
             Console.WriteLine("It's a draw!");
             restart = PromptRestart();
+            winningPlayer = null;
             return true;
         }
 
         restart = false;
+        winningPlayer = null;
         return false;
     }
+
 
     private bool PromptRestart()
     {
@@ -99,6 +106,7 @@ public class ConnectFourGame
 
         return choice == 1;
     }
+
 
 
     private bool CheckWinCondition(char symbol)
@@ -184,10 +192,12 @@ public class ConnectFourGame
 public abstract class Player
 {
     public char Symbol { get; }
+    public string Name { get; }
 
-    public Player(char symbol)
+    public Player(char symbol, string name)
     {
         Symbol = symbol;
+        Name = name;
     }
 
     public abstract int GetNextMove();
@@ -195,13 +205,13 @@ public abstract class Player
 
 public class HumanPlayer : Player
 {
-    public HumanPlayer(char symbol) : base(symbol)
+    public HumanPlayer(char symbol, string name) : base(symbol, name)
     {
     }
 
     public override int GetNextMove()
     {
-        Console.Write($"Player {Symbol}, enter column number (1-7): ");
+        Console.Write($"{Name}, enter column number (1-7): ");
         int column;
         while (!int.TryParse(Console.ReadLine(), out column) || column < 1 || column > 7)
         {
@@ -222,21 +232,29 @@ public class GameController
     public GameController()
     {
         game = new ConnectFourGame();
-        player1 = new HumanPlayer('X');
-        player2 = new HumanPlayer('O');
+        player1 = CreatePlayer('X', "Player 1");
+        player2 = CreatePlayer('O', "Player 2");
+    }
+
+    private Player CreatePlayer(char symbol, string playerLabel)
+    {
+        Console.Write($"{playerLabel}, please enter your name: ");
+        string name = Console.ReadLine();
+        return new HumanPlayer(symbol, name);
     }
 
     public void StartGame()
     {
         bool isPlayer1Turn = true;
         bool restart = true;
+        Player winningPlayer = null;
 
         while (restart)
         {
             game = new ConnectFourGame();
             isPlayer1Turn = true;
 
-            while (!game.IsGameOver(out restart))
+            while (!game.IsGameOver(player1, player2, out restart, out winningPlayer))
             {
                 game.PrintBoard();
 
@@ -254,9 +272,16 @@ public class GameController
                 }
             }
         }
+
+        game.PrintBoard();
+        if (winningPlayer != null)
+        {
+            Console.WriteLine($"It is a Connect Four. {winningPlayer.Name} wins!");
+        }
+        Console.ReadLine();
     }
 
-    class Program
+class Program
     {
         static void Main(string[] args)
         {
@@ -264,4 +289,5 @@ public class GameController
             controller.StartGame();
         }
     }
+
 }
